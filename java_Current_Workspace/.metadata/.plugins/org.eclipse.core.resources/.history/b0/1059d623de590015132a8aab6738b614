@@ -1,0 +1,42 @@
+
+public class Poland {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+			String[] RPN = "5 1 -".split(" ");
+			System.out.println(new Test().calculateRPN(RPN));
+		}
+		
+		public double calculateRPN(String[] RPN) {
+			assert (RPN != null && RPN.length != 0);
+			Stack<Double> stack = new Stack<Double>();
+			for (int i = 0; i < RPN.length; i++) {
+				if (isNumber(RPN[i])) {
+					stack.push(Double.parseDouble(RPN[i]));
+				} else {
+					double v1 = stack.pop();
+					double v2 = stack.pop();
+					double result = eval(RPN[i], v2, v1);
+					stack.push(result);
+				}
+			}
+			return stack.pop();
+		}
+		
+		public boolean isNumber(String s) {
+			if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) return false;
+			return true;
+		}
+		
+		public static double eval(String op, double val1, double val2) {
+	        if (op.equals("+")) return val1 + val2;
+	        if (op.equals("-")) return val1 - val2;
+	        if (op.equals("/")) return val1 / val2;
+	        if (op.equals("*")) return val1 * val2;
+	        throw new RuntimeException("Invalid operator");
+	    }
+	}
+
+}
